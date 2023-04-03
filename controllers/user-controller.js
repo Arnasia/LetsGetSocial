@@ -32,4 +32,21 @@ const userController = {
                 res.sendStatus(400);
             });
     },
+
+      // add a reaction
+      addFriend({ params, body }, res) {
+        User.findOneAndUpdate(
+            { _id: params.userId },
+            { $push: { friends: params.friendId } },
+            { new: true, runValidators: true }
+        )
+            .then(dbFriendData => {
+                if (!dbFriendData) {
+                    res.status(404).json({ message: 'No user found with this id!' });
+                    return;
+                }
+                res.json(dbFriendData);
+            })
+            .catch(err => res.json(err));
+    },
 }
