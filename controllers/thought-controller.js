@@ -1,6 +1,7 @@
 // Importing Thought and User models
 const { Thought, User } = require('../models');
 
+//contoller for thoughts
 const thoughtController = {
     // get all thoughts
     getAllThought(req, res) {
@@ -59,7 +60,7 @@ const thoughtController = {
     },
 
 
-      // update thought
+      // locate and update thought
       updateThought({ params, body }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
