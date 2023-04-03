@@ -66,4 +66,34 @@ const userController = {
             })
             .catch(err => res.json(err));
     },
-}
+
+     // remove thought
+     removeUser({ params }, res) {
+        User.findOneAndDelete({ _id: params.userId })
+            .then(deletedUser => {
+                if (!deletedUser) {
+                    return res.status(404).json({ message: 'No user with this id!' });
+                }
+                return Thought.deleteMany({ _id: { $in: deletedUser.thoughts } })
+            }).then(() => {
+                res.json({ message: "User and associated thoughts have been deleted!" })
+            })
+            .catch(err => res.json(err));
+    },
+    // remove reply
+    removeFriend({ params }, res) {
+        User.findOneAndUpdate(
+            { _id: params.userId },
+            { $pull: { friends: { friendId: params.friendId } } },
+            { new: true }
+        )
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    return res.status(404).json({ message: 'No user with this id!' });
+                }
+                res.json(dbUserData)
+            })
+            .catch(err => res.json(err));
+    }
+};
+
