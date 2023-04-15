@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(require('./routes'));
 
 // communicate which database to connect to
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/socialNetwork', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/SOCIAL_NETWORK_API', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
